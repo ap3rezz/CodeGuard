@@ -19,22 +19,17 @@ import es.tfg.codeguard.configuration.DataSourceConfig;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = { "es.tfg.codeguard.model.repository.deleteduser" }, 
-                        entityManagerFactoryRef = "entityManagerFactoryDeletedUsers", 
-                        transactionManagerRef = "transactionManagerDeletedUsers")
+@EnableJpaRepositories(basePackages = { "es.tfg.codeguard.model.repository.deleteduser" },
+        entityManagerFactoryRef = "entityManagerFactoryDeletedUsers",
+        transactionManagerRef = "transactionManagerDeletedUsers")
 public class DeletedUsersDataSourceConfig implements DataSourceConfig {
 
     @Override
     @Bean(name = "deletedUsersDataSource")
-    @ConfigurationProperties(prefix = "spring.deletedusers.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.deleted-users")
     public DataSource dataSource() {
-        
-        return DataSourceBuilder.create()
-                .url("jdbc:h2:mem:deletedUsers")
-                .username("deletedUsers")
-                .password("")
-                .driverClassName("org.h2.Driver")
-                .build();
+
+        return DataSourceBuilder.create().build();
     }
 
     @Override

@@ -21,22 +21,17 @@ import es.tfg.codeguard.configuration.DataSourceConfig;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = { "es.tfg.codeguard.model.repository.user" },
-                        entityManagerFactoryRef = "entityManagerFactoryUsers",
-                        transactionManagerRef = "transactionManagerUser")
+        entityManagerFactoryRef = "entityManagerFactoryUsers",
+        transactionManagerRef = "transactionManagerUser")
 public class UserDataSourceConfig implements DataSourceConfig {
 
     @Override
     @Primary
     @Bean(name = "usersDataSource")
-    @ConfigurationProperties(prefix = "spring.users.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.users")
     public DataSource dataSource(){
 
-        return DataSourceBuilder.create()
-                .url("jdbc:h2:mem:users")
-                .username("users")
-                .password("")
-                .driverClassName("org.h2.Driver")
-                .build();
+        return DataSourceBuilder.create().build();
     }
 
     @Override

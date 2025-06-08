@@ -20,21 +20,16 @@ import es.tfg.codeguard.configuration.DataSourceConfig;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = { "es.tfg.codeguard.model.repository.exercise" },
-                        entityManagerFactoryRef = "entityManagerFactoryExercises",
-                        transactionManagerRef = "transactionManagerExercises")
+        entityManagerFactoryRef = "entityManagerFactoryExercises",
+        transactionManagerRef = "transactionManagerExercises")
 public class ExercisesDataSourceConfig implements DataSourceConfig {
 
     @Override
     @Bean(name = "exercisesDataSource")
-    @ConfigurationProperties(prefix = "spring.exercises.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.exercises")
     public DataSource dataSource(){
 
-        return DataSourceBuilder.create()
-                .url("jdbc:h2:mem:exercises")
-                .username("exercises")
-                .password("")
-                .driverClassName("org.h2.Driver")
-                .build();
+        return DataSourceBuilder.create().build();
     }
 
     @Override
