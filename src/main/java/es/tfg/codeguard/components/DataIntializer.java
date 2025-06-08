@@ -27,9 +27,9 @@ public class DataIntializer {
     @Bean
     void firstAdmin() {
         User firstAdmin = new User("Saruman", true, true);
-        UserPass firstAdminPass = new UserPass("Saruman", 
-                                                passwordEncoder.encode("s4rum4n"), 
-                                                true);
+        UserPass firstAdminPass = new UserPass("Saruman",
+                passwordEncoder.encode("s4rum4n"),
+                true);
 
         userRepository.save(firstAdmin);
         userPassRepository.save(firstAdminPass);
@@ -98,27 +98,27 @@ public class DataIntializer {
     void dataInizializerForFrontTesting() {
         User userTester = new User("Merlin", true, false);
         UserPass userTesterPass = new UserPass("Merlin",
-                                                passwordEncoder.encode("merlin"),
-                                                false);
+                passwordEncoder.encode("merlin"),
+                false);
         userRepository.save(userTester);
         userPassRepository.save(userTesterPass);
         User userCreator = new User("Gandalf", false, true);
         UserPass userCreatorPass = new UserPass("Gandalf",
-                                                passwordEncoder.encode("gandalf"),
-                                                false);
+                passwordEncoder.encode("gandalf"),
+                false);
         userRepository.save(userCreator);
         userPassRepository.save(userCreatorPass);
         User userNormal = new User("Dumbledore", false, false);
         UserPass userNormalPass = new UserPass("Dumbledore",
-                                                passwordEncoder.encode("dumbledore"),
-                                                false);
+                passwordEncoder.encode("dumbledore"),
+                false);
         userRepository.save(userNormal);
         userPassRepository.save(userNormalPass);
         User userTryhard = new User("Harry", false, false);
         userTryhard.setExercises(new java.util.ArrayList<>(){{ add("reverse-words"); add("square-every-digit");}});
         UserPass userTryhardPass = new UserPass("Harry",
-                                                passwordEncoder.encode("potter"),
-                                                false);
+                passwordEncoder.encode("potter"),
+                false);
         userRepository.save(userTryhard);
         userPassRepository.save(userTryhardPass);
     }
