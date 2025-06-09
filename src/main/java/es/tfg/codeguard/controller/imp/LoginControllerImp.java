@@ -6,6 +6,7 @@ import es.tfg.codeguard.model.dto.UserPassDTO;
 import es.tfg.codeguard.service.JWTService;
 import es.tfg.codeguard.service.LoginService;
 import es.tfg.codeguard.util.IncorrectPasswordException;
+import es.tfg.codeguard.util.PasswordNotValidException;
 import es.tfg.codeguard.util.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +34,7 @@ public class LoginControllerImp implements LoginController {
             userPassDTO = loginService.loginUser(authDTO);
         } catch (UserNotFoundException e) {
             return ResponseEntity.notFound().build();
-        } catch (IncorrectPasswordException e) {
+        } catch (IncorrectPasswordException | PasswordNotValidException e) {
             return ResponseEntity.badRequest().build();
         }
 

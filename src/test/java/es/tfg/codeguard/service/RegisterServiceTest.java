@@ -14,10 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 public class RegisterServiceTest {
 
     @Mock
@@ -44,15 +43,16 @@ public class RegisterServiceTest {
     private RegisterServiceImp registerServiceImp;
 
     private AuthDTO jsonParserDTO;
+    private String base64Password;
 
     @BeforeEach
     void setup() {
-        jsonParserDTO = new AuthDTO("Gandalf", "cantpass");
+        base64Password = new String(Base64.getEncoder().encode("cantpass1".getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+        jsonParserDTO = new AuthDTO("Gandalf", base64Password);
     }
 
     @Test
     public void registerUserServiceTestUsernameAlreadyExist() {
-
         UserPass userPass = new UserPass();
         userPass.setUsername("Gandalf");
 
@@ -63,8 +63,7 @@ public class RegisterServiceTest {
 
     @Test
     public void registerUserServiceTest() {
-
-        when(passwordEncoder.encode("cantpass")).thenReturn(new BCryptPasswordEncoder().encode("cantpass"));
+        when(passwordEncoder.encode("cantpass1")).thenReturn("hashedPassword");
         when(userPassRepository.findById("Gandalf")).thenReturn(Optional.empty());
 
         UserPassDTO user = registerServiceImp.registerUser(jsonParserDTO);
@@ -73,5 +72,4 @@ public class RegisterServiceTest {
 
         assertThat(userPassExpected).usingRecursiveComparison().isEqualTo(user);
     }
-
 }
