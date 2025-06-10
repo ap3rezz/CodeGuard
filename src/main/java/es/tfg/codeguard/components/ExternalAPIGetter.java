@@ -346,4 +346,40 @@ public class ExternalAPIGetter {
         return magicMusicBoxExercise;
     }
 
+    private Exercise setValidBracesExercise(Exercise validBracesExercise){
+
+        validBracesExercise.setTest("import org.junit.jupiter.api.*;\n" +
+                "import org.junit.jupiter.params.*;\n" +
+                "import org.junit.jupiter.params.provider.*;\n" +
+                "import static org.junit.jupiter.api.Assertions.*;\n" +
+                "\n" +
+                "public class BraceCheckerTests {\n" +
+                "\n" +
+                "  private BraceChecker checker = new BraceChecker();\n" +
+                "\n" +
+                "\t@ParameterizedTest(name=\"Testing \\\"{0}\\\"\")\n" +
+                "  @ValueSource(strings = {\"()\", \"[]\", \"{}\", \"(){}[]\", \"([{}])\", \"({})[({})]\", \"(({{[[]]}}))\", \"{}({})[]\" })\n" +
+                "  public void testValid(String braces) {    \n" +
+                "    assertEquals(true, checker.isValid(braces), \"Incorrect answer for \\\"\" + braces + \"\\\"\");\n" +
+                "\t}\n" +
+                "  \n" +
+                "  @ParameterizedTest(name=\"Testing \\\"{0}\\\"\")\n" +
+                "  @ValueSource(strings = { \"[(])\", \"(}\", \"(})\", \")(}{][\", \"())({}}{()][][\", \"(((({{\", \"}}]]))}])\" })\n" +
+                "  public void testInvalid(String braces) {    \n" +
+                "    assertEquals(false, checker.isValid(braces), \"Incorrect answer for \\\"\" + braces + \"\\\"\");\n" +
+                "\t}\n" +
+                "}");
+        validBracesExercise.setPlaceholder("public class BraceChecker {\n" +
+                "\n" +
+                "  public boolean isValid(String braces) {\n" +
+                "    // Add code here\n" +
+                "    return false;\n" +
+                "  }\n" +
+                "\n" +
+                "}");
+
+        return validBracesExercise;
+    }
+
+
 }
