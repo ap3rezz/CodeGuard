@@ -1,5 +1,6 @@
 package es.tfg.codeguard.model.entity.userpass;
 
+import es.tfg.codeguard.util.PasswordNotValidException;
 import es.tfg.codeguard.util.UsernameNotValidException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -51,7 +52,7 @@ public class UserPass {
     }
 
     public void setHashedPass(String hashedPass) {
-        if (hashedPass == null || hashedPass.isBlank()) throw new IllegalArgumentException();
+        if (hashedPass == null || hashedPass.isBlank()) throw new PasswordNotValidException("Password not valid");
         this.hashedPass = hashedPass;
     }
 

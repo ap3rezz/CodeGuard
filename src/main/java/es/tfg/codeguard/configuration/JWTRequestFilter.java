@@ -38,6 +38,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
             UserPass userPass = jwtService.extractUserPass(token);
 
+            System.out.println(userPass.toString());
+
             if (userPass.getUsername().equals(userRepository.findById(userPass.getUsername()).get().getUsername())) {
                 SecurityContextHolder.getContext()
                         .setAuthentication(new UsernamePasswordAuthenticationToken(loginUserDetailsService.loadUserByUsername(userPass.getUsername()), null, loginUserDetailsService.loadUserByUsername(userPass.getUsername()).getAuthorities()));

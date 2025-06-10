@@ -18,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -57,7 +59,7 @@ public class LoginServiceTest {
 
         String hashedPass = new BCryptPasswordEncoder().encode("1234");
 
-        AuthDTO authDTO = new AuthDTO(username, "9876Password");
+        AuthDTO authDTO = new AuthDTO(username, new String(Base64.getEncoder().encode("9876Password".getBytes(StandardCharsets.UTF_8)),StandardCharsets.UTF_8));
 
         when(userRepository.findById(username)).thenReturn(Optional.of(new User(username, false, false)));
 

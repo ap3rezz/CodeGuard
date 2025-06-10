@@ -1,6 +1,7 @@
 package es.tfg.codeguard.model.entity;
 
 import es.tfg.codeguard.model.entity.userpass.UserPass;
+import es.tfg.codeguard.util.PasswordNotValidException;
 import es.tfg.codeguard.util.UsernameNotValidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,10 +86,10 @@ class UserPassTests {
 
     @Test
     void notValidSetHashedPass() {
-        assertThrows(IllegalArgumentException.class, () -> userPass.setHashedPass(null));
-        assertThrows(IllegalArgumentException.class, () -> userPass.setHashedPass(""));
-        assertThrows(IllegalArgumentException.class, () -> userPass.setHashedPass("   "));
-        assertThrows(IllegalArgumentException.class, () -> userPass.setHashedPass("\n"));
+        assertThrows(PasswordNotValidException.class, () -> userPass.setHashedPass(null));
+        assertThrows(PasswordNotValidException.class, () -> userPass.setHashedPass(""));
+        assertThrows(PasswordNotValidException.class, () -> userPass.setHashedPass("   "));
+        assertThrows(PasswordNotValidException.class, () -> userPass.setHashedPass("\n"));
     }
 
     @Test

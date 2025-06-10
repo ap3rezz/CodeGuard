@@ -7,11 +7,14 @@ import es.tfg.codeguard.model.repository.user.UserRepository;
 import es.tfg.codeguard.model.repository.userpass.UserPassRepository;
 import es.tfg.codeguard.service.LoginService;
 import es.tfg.codeguard.util.IncorrectPasswordException;
+import es.tfg.codeguard.util.PasswordNotValidException;
 import es.tfg.codeguard.util.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
@@ -35,7 +38,17 @@ public class LoginServiceImp implements LoginService {
 
         UserPass user = userOp.get();
 
-        if (!passwordEncoder.matches(authDTO.password(), user.getHashedPass())) {
+        String decodedPassword;
+        //Decodificar contraeña en Base64
+        try{
+            decodedPassword = new String(Base64.getDecoder().decode(authDTO.password().getBytes(StandardCharsets.UTF_8)),StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException e) {
+            throw new PasswordNotValidException("Password not valid");
+        }
+
+        if(!decodedPassword.matches("(?=.*\\d).{8,}")) throw new PasswordNotValidException("Password not valid");
+
+        if (!passwordEncoder.matches(decodedPassword, user.getHashedPass())) {
             throw new IncorrectPasswordException("Incorrect password" + "for user [" + authDTO.username() + "]");
         }
 

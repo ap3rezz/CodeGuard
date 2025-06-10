@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 @Service
 public class RegisterServiceImp implements RegisterService {
 
@@ -34,13 +37,24 @@ public class RegisterServiceImp implements RegisterService {
         UserPass userPass = new UserPass();
         userPass.setAdmin(false);
 
+        String decodedPassword;
+
+        //Decodificar contraeña en Base64
+        try{
+            decodedPassword = new String(Base64.getDecoder().decode(authDTO.password().getBytes(StandardCharsets.UTF_8)),StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException e) {
+            throw new PasswordNotValidException("Problem decoding password");
+        }
+
+        if(!decodedPassword.matches("(?=.*\\d).{8,}")) throw new PasswordNotValidException("Password not valid");
+
         try {
             userPass.setUsername(authDTO.username());
-            userPass.setHashedPass(passwordEncoder.encode(authDTO.password()));
+            userPass.setHashedPass(passwordEncoder.encode(decodedPassword));
         } catch (UsernameNotValidException e) {
             throw new UsernameNotValidException("Username not valid [" +authDTO.username() +"]");
         } catch (PasswordNotValidException i){
-            throw new PasswordNotValidException("Password not valid [" +authDTO.password() +"]");
+            throw new PasswordNotValidException("Password not valid");
         }
 
         userPassRepository.save(userPass);
