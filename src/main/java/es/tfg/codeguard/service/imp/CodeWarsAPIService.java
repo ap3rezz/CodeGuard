@@ -33,7 +33,7 @@ public class CodeWarsAPIService implements ExternalAPIService {
             return new ExerciseDTO(jsonObject.getString("slug"),
                     jsonObject.getString("name"),
                     jsonObject.getString("description"),
-                    null, "CodeWars API");
+                    "CodeWars API", "CodeWars API");
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -6,8 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import es.tfg.codeguard.model.entity.exercise.Exercise;
-import es.tfg.codeguard.model.entity.user.User;
-import es.tfg.codeguard.model.entity.userpass.UserPass;
 import es.tfg.codeguard.model.repository.exercise.ExerciseRepository;
 import es.tfg.codeguard.model.repository.user.UserRepository;
 import es.tfg.codeguard.model.repository.userpass.UserPassRepository;
