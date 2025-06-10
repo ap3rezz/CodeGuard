@@ -6,8 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import es.tfg.codeguard.model.entity.exercise.Exercise;
-import es.tfg.codeguard.model.entity.user.User;
-import es.tfg.codeguard.model.entity.userpass.UserPass;
 import es.tfg.codeguard.model.repository.exercise.ExerciseRepository;
 import es.tfg.codeguard.model.repository.user.UserRepository;
 import es.tfg.codeguard.model.repository.userpass.UserPassRepository;
@@ -23,17 +21,6 @@ public class DataIntializer {
     private UserPassRepository userPassRepository;
     @Autowired
     private ExerciseRepository exerciseRepository;
-
-    @Bean
-    void firstAdmin() {
-        User firstAdmin = new User("Saruman", true, true);
-        UserPass firstAdminPass = new UserPass("Saruman",
-                passwordEncoder.encode("s4rum4n"),
-                true);
-
-        userRepository.save(firstAdmin);
-        userPassRepository.save(firstAdminPass);
-    }
 
     @Bean
     void firstExercise() {
@@ -92,35 +79,6 @@ public class DataIntializer {
         secondExercise.setTest("import org.junit.jupiter.api.*;import static org.junit.jupiter.api.Assertions.*;import java.util.Random;public class SquareDigitTest {    private void assertSolution(int expected, int n) {            int actual = assertDoesNotThrow(() -> new SquareDigit().squareDigits(n), \"Unexpected exception thrown by user solution for n=\" + n);      assertEquals(expected, actual, \"Incorrect answer for n=\" + n);    }    @Test    public void test() {      assertSolution(811181, 9119);      assertSolution(9414, 3212);      assertSolution(4114, 2112);      assertSolution(0, 0);    }    @Test    public void randomTest() {      Random random = new Random();      for (int i = 0; i < 100; i++) {        int test = 0;        test += random.nextInt(10);        test += random.nextInt(10) * 10;        test += random.nextInt(10) * 10 * 10;        test += random.nextInt(10) * 10 * 10 * 10;        assertSolution(squareDigits(test), test);              }    }    private int squareDigits(int n) {      String strDigits = String.valueOf(n);          String result = \"\";      for (char c : strDigits.toCharArray()) {        int digit = Character.digit(c, 10);        result += digit * digit;      }          return Integer.parseInt(result);    }}");
         secondExercise.setPlaceholder("public class SquareDigit {  public int squareDigits(int n) {    return 0; // TODO Implement me  }}");
         exerciseRepository.save(secondExercise);
-    }
-
-    @Bean
-    void dataInizializerForFrontTesting() {
-        User userTester = new User("Merlin", true, false);
-        UserPass userTesterPass = new UserPass("Merlin",
-                passwordEncoder.encode("merlin"),
-                false);
-        userRepository.save(userTester);
-        userPassRepository.save(userTesterPass);
-        User userCreator = new User("Gandalf", false, true);
-        UserPass userCreatorPass = new UserPass("Gandalf",
-                passwordEncoder.encode("gandalf"),
-                false);
-        userRepository.save(userCreator);
-        userPassRepository.save(userCreatorPass);
-        User userNormal = new User("Dumbledore", false, false);
-        UserPass userNormalPass = new UserPass("Dumbledore",
-                passwordEncoder.encode("dumbledore"),
-                false);
-        userRepository.save(userNormal);
-        userPassRepository.save(userNormalPass);
-        User userTryhard = new User("Harry", false, false);
-        userTryhard.setExercises(new java.util.ArrayList<>(){{ add("reverse-words"); add("square-every-digit");}});
-        UserPass userTryhardPass = new UserPass("Harry",
-                passwordEncoder.encode("potter"),
-                false);
-        userRepository.save(userTryhard);
-        userPassRepository.save(userTryhardPass);
     }
 
     @Bean
