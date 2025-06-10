@@ -24,10 +24,8 @@ public class ExternalAPIGetter {
     @Bean
     void getExercisesFromCodeWars() {
 
-        Exercise magicMusicBoxExercise = new Exercise(codeWarsAPIService.requestExerciseById("magic-music-box"));
-
-        exerciseRepository.save(new Exercise(codeWarsAPIService.requestExerciseById("valid-braces")));
-        exerciseRepository.save(setMagicMusicBoxTests(magicMusicBoxExercise));
+        exerciseRepository.save(setValidBracesExercise(new Exercise(codeWarsAPIService.requestExerciseById("valid-braces"))));
+        exerciseRepository.save(setMagicMusicBoxTests(new Exercise(codeWarsAPIService.requestExerciseById("magic-music-box"))));
     }
 
     @Bean
